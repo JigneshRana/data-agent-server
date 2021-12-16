@@ -7,9 +7,7 @@ import traceback
 import libserver
 from functions import *
 
-
 sel = selectors.DefaultSelector()
-
 
 def accept_wrapper(sock):
     conn, addr = sock.accept()  # Should be ready to read
@@ -18,7 +16,6 @@ def accept_wrapper(sock):
     conn.setblocking(False)
     message = libserver.Message(sel, conn, addr)
     sel.register(conn, selectors.EVENT_READ, data=message)
-
 
 if len(sys.argv) < 3:
     print("usage:", sys.argv[0], "<host> <port>")
@@ -30,7 +27,7 @@ lsock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 lsock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 lsock.bind((host, port))
 lsock.listen()
-#print("listening on", (host, port))
+#print("listening on test", (host, port))
 logstr("listening on "+str(host)+","+str(port))
 lsock.setblocking(False)
 sel.register(lsock, selectors.EVENT_READ, data=None)
