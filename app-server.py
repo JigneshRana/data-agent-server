@@ -36,8 +36,8 @@ try:
     while True:
         events = sel.select(timeout=None)
         for key, mask in events:
-            print("key "+str(key))
-            print("mask "+str(mask))
+            #print("key "+str(key))
+            #print("mask "+str(mask))
             if key.data is None:
                 accept_wrapper(key.fileobj)
             else:

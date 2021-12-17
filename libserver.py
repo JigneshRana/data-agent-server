@@ -92,17 +92,29 @@ class Message:
 
     def _create_response_json_content(self):
         action = self.request.get("action")
+        logstr("_create_response_json_content "+str(action))
+        '''
         if action == "search":
             query = self.request.get("value")
             answer = request_search.get(query) or f'No match for "{query}".'
             content = {"result": answer}
         else:
-            content = {"result": f'Error: invalid action "{action}".'}
+            content = {"result": f'Error: invalid---action "{action}".'}
         content_encoding = "utf-8"
         response = {
             "content_bytes": self._json_encode(content, content_encoding),
             "content_type": "text/json",
             "content_encoding": content_encoding,
+        
+        }
+        '''
+        content = {"result": 'Status Ok'}
+        content_encoding = "utf-8"
+        response = {
+            "content_bytes": self._json_encode(content, content_encoding),
+            "content_type": "text/json",
+            "content_encoding": content_encoding,
+        
         }
         return response
 
