@@ -69,6 +69,7 @@ class Message:
         return json.dumps(obj, ensure_ascii=False).encode(encoding)
 
     def _json_decode(self, json_bytes, encoding):
+        #logstr("received json_bytes: "+str(json_bytes)+"  encoding:"+str(encoding) )
         tiow = io.TextIOWrapper(
             io.BytesIO(json_bytes), encoding=encoding, newline=""
         )
@@ -208,9 +209,10 @@ class Message:
         self._recv_buffer = self._recv_buffer[content_len:]
         if self.jsonheader["content-type"] == "text/json":
             encoding = self.jsonheader["content-encoding"]
+            self.write_response_to_file(data)
             self.request = self._json_decode(data, encoding)
             #print("received request", repr(self.request), "from", self.addr)
-            logstr("received request "+str(repr(self.request))+" from "+str(self.addr) )
+            logstr("received Data "+str(repr(self.request))+" from "+str(self.addr) )
         else:
             # Binary or unknown content-type
             self.request = data
@@ -230,3 +232,19 @@ class Message:
         message = self._create_message(**response)
         self.response_created = True
         self._send_buffer += message
+
+    def write_response_to_file(self,data):
+        encoding = "utf-8"
+        print(self.addr)
+        addr = str(self.addr).split("'")
+        host = addr[1]
+        logstr("received Json Data "+str(data,encoding)+" from "+str(host) )
+        data_string = str(data,encoding)
+        data_location = "/media/jignesh/Data/data-agent-server/data/"
+        file_to_write = data_location+str(host)+".txt"
+        f = open(file_to_write, "w")
+        f.write(data_string)
+        f.close()
+        return False
+
+        
