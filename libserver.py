@@ -240,7 +240,7 @@ class Message:
         host = addr[1]
         logstr("received Json Data "+str(data,encoding)+" from "+str(host) )
         data_string = str(data,encoding)
-        data_location = "/media/jignesh/Data/data-agent-server/data/"
+        data_location = "data/"
         file_to_write = data_location+str(host)+".txt"
         f = open(file_to_write, "w")
         f.write(data_string)
